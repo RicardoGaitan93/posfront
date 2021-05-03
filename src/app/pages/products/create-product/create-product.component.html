@@ -1,0 +1,119 @@
+<div class="mt-12">
+    <h4>Crear Nuevo <small> producto </small></h4>
+    <hr>
+    <form autocomplete="off" [formGroup]="productForm" (ngSubmit)="createNewProduct()">
+
+        <div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Nombre Producto</label>
+                <div class="col-8">
+                    <input class="form-control" type="text" formControlName="nombreProducto" [class.is-invalid]="getCampoNoValido('nombreProducto')">
+                    <small *ngIf="getCampoNoValido('nombreProducto')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Descripcion Producto</label>
+                <div class="col-8">
+                    <input class="form-control" type="text" formControlName="descripcionProducto" [class.is-invalid]="getCampoNoValido('descripcionProducto')">
+                    <small *ngIf="getCampoNoValido('descripcionProducto')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Tipo Producto</label>
+                <div class="col-8">
+                    <input class="form-control" type="text" formControlName="tipoProducto" [class.is-invalid]="getCampoNoValido('tipoProducto')">
+                    <small *ngIf="getCampoNoValido('tipoProducto')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Categoria Producto</label>
+                <div class="col-8">
+                    <input class="form-control" type="text" formControlName="categoriaProducto" [class.is-invalid]="getCampoNoValido('categoriaProducto')">
+                    <small *ngIf="getCampoNoValido('categoriaProducto')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Codigo de Barras</label>
+                <div class="col-8">
+
+                    <input class="form-control" type="text" formControlName="codigoBarras" [class.is-invalid]="getCampoNoValido('codigoBarras')">
+                    <small *ngIf="getCampoNoValido('codigoBarras')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Impuesto</label>
+                <div class="col-8">
+
+                    <input class="form-control" type="text" formControlName="impuesto" [class.is-invalid]="getCampoNoValido('impuesto')">
+                    <small *ngIf="getCampoNoValido('impuesto')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Cantidad Actual</label>
+                <div class="col-8">
+
+                    <input class="form-control" type="text" formControlName="cantidadActual" [class.is-invalid]="getCampoNoValido('cantidadActual')">
+                    <small *ngIf="getCampoNoValido('cantidadActual')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Cantidad Minima</label>
+                <div class="col-8">
+
+                    <input class="form-control" type="text" formControlName="cantidadMinima" [class.is-invalid]="getCampoNoValido('cantidadMinima')">
+                    <small *ngIf="getCampoNoValido('cantidadMinima')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Cantidad Maxima</label>
+                <div class="col-8">
+
+                    <input class="form-control" type="text" formControlName="cantidadMaxima" [class.is-invalid]="getCampoNoValido('cantidadMaxima')">
+                    <small *ngIf="getCampoNoValido('cantidadMaxima')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">Unidad de Medida</label>
+                <div class="col-8">
+
+                    <input class="form-control" type="text" formControlName="unidadMedida" [class.is-invalid]="getCampoNoValido('unidadMedida')">
+                    <small *ngIf="getCampoNoValido('unidadMedida')" class="text-danger">* El campo es obligatorio</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">&nbsp;</label>
+            <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary btn-block">
+        Guardar
+      </button>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+<hr>
+<pre>
+  Estado del Formulario: {{productForm.valid}}
+  <br>
+  Status: {{productForm.status}}
+</pre>
+
+<pre>
+  Valor: {{productForm.value | json}}
+</pre>

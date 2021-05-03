@@ -1,0 +1,262 @@
+<div>
+    <div class="row">
+        <div class="col-lg-9">
+            <h3>Productos</h3>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="cargando" class="alert alert-info text-center mt-3 animated fadeIn faster">
+    <h4 class="alert-heading">Cargando </h4>
+    <p>
+        <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+    </p>
+    <p class="mb-0">
+        Espere por favor
+    </p>
+</div>
+
+<div *ngIf="!cargando && productList.length == 0" class="alert alert-warning text-center mt-3 animated fadeIn faster">
+    <h4 class="alert-heading">No hay registros </h4>
+    <p>
+        <i class="fa fa-exclamation fa-spin fa-2x"></i>
+    </p>
+</div>
+
+<div *ngIf="!cargando && productList.length > 0" class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id Producto</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Existencias</th>
+                <th scope="col">Minimo</th>
+                <th scope="col">Maximo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of productList">
+                <td>{{ item.idProducto }}</td>
+                <td>{{ item.nombreProducto }}</td>
+                <td>{{ item.descripcionProducto }}</td>
+                <td>{{ item.cantidadEnBodega }}</td>
+                <td>{{ item.cantidadMinima }}</td>
+                <td>{{ item.cantidadMaxima }}</td>
+                <th scope="row">
+                    <button class="btn btn-primary" (click)="deleteProduct()">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+                    <button (click)="editProduct(item.idProducto)" class="btn btn-primary button-space" data-toggle="modal" data-target=".editProduct">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+                    <button (click)="consultProduct(item.idProducto)" class="btn btn-primary button-space" data-toggle="modal" data-target=".detailProduct">
+            <i class="fas fa-eye"></i>
+          </button>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Large modal -->
+<button class="btn btn-primary" (click)="createProduct()"><i class="fas fa-plus"></i>Crear Producto</button>
+
+
+<div class="modal fade detailProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Visualizar Detalle Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right"><strong>Nombre Producto</strong></label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.nombreProducto" disabled>
+                            <!-- <p class="align-middle">{{viewProd.nombreProducto}}</p>
+                            <span class="align-middle">{{viewProd.nombreProducto}}</span> -->
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Descripcion Producto</label>
+                        <div class="col-6">
+                            <textarea class="form-control" id="exampleFormControlTextarea3" rows="5" [value]="viewProd.descripcionProducto" disabled></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Tipo Producto</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.tipoProducto" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Categoria Producto</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.categoriaProducto" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Codigo de Barras</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.codigoBarras" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Impuesto</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.idImpuesto" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Cantidad Actual</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.cantidadEnBodega" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Cantidad Minima</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.cantidadMinima" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Cantidad Maxima</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.cantidadMaxima" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label text-right">Unidad de Medida</label>
+                        <div class="col-6">
+                            <input class="form-control" type="text" [value]="viewProd.unidadMedida" disabled>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editProduct" class="modal fade editProduct" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off" [formGroup]="productUpdateForm" (ngSubmit)="editProductConfirmation()">
+                    <div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right"><strong>Nombre Producto</strong></label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" formControlName="nombreProducto" [class.is-invalid]="getCampoNoValido('nombreProducto')">
+                                <small *ngIf="getCampoNoValido('nombreProducto')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Descripcion Producto</label>
+                            <div class="col-6">
+                                <textarea class="form-control" id="exampleFormControlTextarea3" rows="5" [value]="viewProd.descripcionProducto" formControlName="descripcionProducto" [class.is-invalid]="getCampoNoValido('descripcionProducto')"></textarea>
+                                <small *ngIf="getCampoNoValido('descripcionProducto')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Tipo Producto</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.tipoProducto" formControlName="tipoProducto" [class.is-invalid]="getCampoNoValido('tipoProducto')">
+                                <small *ngIf="getCampoNoValido('tipoProducto')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Categoria Producto</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.categoriaProducto" formControlName="categoriaProducto" [class.is-invalid]="getCampoNoValido('categoriaProducto')">
+                                <small *ngIf="getCampoNoValido('categoriaProducto')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Codigo de Barras</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.codigoBarras" formControlName="codigoBarras" [class.is-invalid]="getCampoNoValido('codigoBarras')">
+                                <small *ngIf="getCampoNoValido('codigoBarras')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Impuesto</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.idImpuesto" formControlName="impuesto" [class.is-invalid]="getCampoNoValido('impuesto')">
+                                <small *ngIf="getCampoNoValido('impuesto')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Cantidad Actual</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.cantidadEnBodega" formControlName="cantidadActual" [class.is-invalid]="getCampoNoValido('cantidadActual')">
+                                <small *ngIf="getCampoNoValido('cantidadActual')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Cantidad Minima</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.cantidadMinima" formControlName="cantidadMinima" [class.is-invalid]="getCampoNoValido('cantidadMinima')">
+                                <small *ngIf="getCampoNoValido('cantidadMinima')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Cantidad Maxima</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.cantidadMaxima" formControlName="cantidadMaxima" [class.is-invalid]="getCampoNoValido('cantidadMaxima')">
+                                <small *ngIf="getCampoNoValido('cantidadMaxima')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-right">Unidad de Medida</label>
+                            <div class="col-6">
+                                <input class="form-control" type="text" [value]="viewProd.unidadMedida" formControlName="unidadMedida" [class.is-invalid]="getCampoNoValido('unidadMedida')">
+                                <small *ngIf="getCampoNoValido('unidadMedida')" class="text-danger">* El campo es obligatorio</small>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="editProductConfirmation()">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
